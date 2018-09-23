@@ -13,14 +13,14 @@ func TestShift(t *testing.T) {
 }
 
 func BenchmarkNormalNoCheck(b *testing.B) {
-	x, y, z := RandomVector(), RandomVector(), RandomVector()
+	x, y, z := *RandomVector(), *RandomVector(), *RandomVector()
 	for i := 0; i < b.N; i++ {
 		normalNoCheck(x, y, z)
 	}
 }
 
 func BenchmarkCoplanar(b *testing.B) {
-	items := []Vec3{RandomVector(), RandomVector(), RandomVector(), RandomVector()}
+	items := []Vec3{*RandomVector(), *RandomVector(), *RandomVector(), *RandomVector()}
 
 	for i := 0; i < b.N; i++ {
 		Coplanar(items)

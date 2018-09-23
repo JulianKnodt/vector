@@ -17,6 +17,11 @@ func NewOrigin() *Vec3 {
 	return &Vec3{0, 0, 0}
 }
 
+// Convenience function which takes float32s and returns a vector
+func VecFloat32(a, b, c float32) *Vec3 {
+	return &Vec3{float64(a), float64(b), float64(c)}
+}
+
 // Returns a vector with all three components equal to a
 func NewVec(a float64) *Vec3 {
 	return &Vec3{a, a, a}
@@ -118,4 +123,11 @@ func Op(in Vec3, op func(float64) float64) *Vec3 {
 		op(in[1]),
 		op(in[2]),
 	}
+}
+
+func (v *Vec3) OpSet(op func(float64) float64) *Vec3 {
+	v[0] = op(v[0])
+	v[1] = op(v[1])
+	v[2] = op(v[2])
+	return v
 }

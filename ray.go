@@ -37,3 +37,7 @@ func (r Ray) Rho() float64 {
 func (r Ray) At(t float64) *Vec3 {
 	return r.Direction.SMul(t).AddSet(r.Origin)
 }
+
+func NewRayFrom(from, to Vec3) *Ray {
+	return NewRay(from, *from.Sub(to))
+}

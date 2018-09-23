@@ -60,16 +60,16 @@ func BenchmarkLerp(b *testing.B) {
 
 func BenchmarkDot(b *testing.B) {
 	b.Run("Dot functional", func(b *testing.B) {
-		v1 := RandomVector()
-		v2 := RandomVector()
+		v1 := *RandomVector()
+		v2 := *RandomVector()
 		for i := 0; i < b.N; i++ {
 			Dot(v1, v2)
 		}
 	})
 
 	b.Run("Dot receiver", func(b *testing.B) {
-		v1 := RandomVector()
-		v2 := RandomVector()
+		v1 := *RandomVector()
+		v2 := *RandomVector()
 		for i := 0; i < b.N; i++ {
 			v1.Dot(v2)
 		}

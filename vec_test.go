@@ -5,8 +5,8 @@ import (
 )
 
 func BenchmarkCross(b *testing.B) {
-	a := RandomVector()
-	c := RandomVector()
+	a := *RandomVector()
+	c := *RandomVector()
 	for i := 0; i < b.N; i++ {
 		Cross(a, c)
 	}
