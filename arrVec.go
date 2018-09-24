@@ -55,7 +55,7 @@ func Colinear(v []Vec3) bool {
 
 const epsilon = 0.000001
 
-func IntersectsTriangle(a, b, c, origin, dir Vec3) (float64, bool) {
+func IntersectsTriangle2(a, b, c, origin, dir Vec3) (float64, bool) {
 	edge1 := *Sub(b, a)
 	edge2 := *Sub(c, a)
 	h := *Cross(dir, edge2)
@@ -104,34 +104,34 @@ func Interpolate(points [3]Vec3, barycentric Vec3) Vec3 {
 }
 
 // A second variation of a function that checks whether origin dir intersects a triangle
-//
-func IntersectsTriangle2(a, b, c, origin, dir Vec3) (float64, bool) {
-	edge1 := *Sub(b, a)
-	edge2 := *Sub(c, a)
+// From graphics codex
+func IntersectsTriangle(a, b, c, origin, dir Vec3) (float64, bool) {
+	edge1 := b.Sub(a)
+	edge2 := c.Sub(a)
 
-	n := *UnitSet(Cross(edge1, edge2)) // normal to triangle
+	n := *edge1.Cross(*edge2).UnitSet() // normal to triangle
 
-	q := *Cross(dir, edge2)
-	p := Dot(edge1, q)
+	q := dir.Cross(*edge2)
+	p := edge1.Dot(*q)
 
 	if Dot(n, dir) >= 0 || math.Abs(p) <= epsilon {
 		return -1, false
 	}
 
-	s := *Op(*Sub(origin, a), func(px float64) float64 {
+	s := Op(*Sub(origin, a), func(px float64) float64 {
 		return px / p
 	})
-	r := *Cross(s, edge1)
+	r := s.Cross(*edge1)
 
 	br := Vec3{}
-	br[0] = Dot(s, q)
-	br[1] = Dot(r, dir)
+	br[0] = s.Dot(*q)
+	br[1] = r.Dot(dir)
 	br[2] = 1 - br[0] - br[1]
 
 	if br[0] < 0 || br[1] < 0 || br[2] < 0 {
 		return -1, false
 	}
 
-	t := Dot(edge2, r)
+	t := edge2.Dot(*r)
 	return t, t >= 0
 }
